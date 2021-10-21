@@ -68,18 +68,21 @@ public class NetflixTableController implements Initializable {
         Boolean Movie = movieCheckBox.isSelected();
         Boolean TvShow = tvCheckBox.isSelected();
         tableView.getItems().clear();
+        numOfShowsLabel.setText("");
         tableView.getItems().addAll(DBUtility.getSelectedSearch(rating));
         numOfShowsLabel.setText(String.valueOf(DBUtility.getSelectedSearch(rating).stream().count()));
         if (Movie == true)
         {
             tableView.getItems().clear();
             tableView.getItems().addAll(DBUtility.getSelectedSearchMovie());
+            numOfShowsLabel.setText("");
             numOfShowsLabel.setText(String.valueOf(DBUtility.getSelectedSearchMovie().stream().count()));
         }
         if (TvShow == true)
         {
             tableView.getItems().clear();
             tableView.getItems().addAll(DBUtility.getSelectedSearchTV());
+            numOfShowsLabel.setText("");
             numOfShowsLabel.setText(String.valueOf(DBUtility.getSelectedSearchTV().stream().count()));
         }
     }
