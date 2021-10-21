@@ -68,7 +68,7 @@ public class DBUtility {
 
     public static ArrayList<NetflixShow> getSelectedSearch(String ratingcombo) {
         ArrayList<NetflixShow> showSelectedSearch = new ArrayList<>();
-        String sql = "SELECT showId, type, title, rating, director,cast FROM netflix WHERE rating='"+ratingcombo+"';";
+        String sql = "SELECT count(*) as row, showId, type, title, rating, director,cast FROM netflix WHERE rating='"+ratingcombo+"';";
 
         try(
                 Connection conn = DriverManager.getConnection(connectionURl, user, pw);
