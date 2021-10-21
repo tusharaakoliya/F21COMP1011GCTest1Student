@@ -48,6 +48,7 @@ public class NetflixTableController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         selectRatingComboBox.getItems().add("All ratings");
+        selectRatingComboBox.getItems().addAll(DBUtility.getAllRating());
 
         showIdCol.setCellValueFactory(new PropertyValueFactory<>("showId"));
         typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
@@ -61,5 +62,13 @@ public class NetflixTableController implements Initializable {
 
     @FXML
     void applyFilter(ActionEvent event)  {
+        String rating = selectRatingComboBox.getSelectionModel().getSelectedItem();
+        Boolean Movie = movieCheckBox.isSelected();
+        Boolean TvShow = tvCheckBox.isSelected();
+        tableView.getItems().clear();
+        tableView.getItems().addAll(DBUtility.getSelectedSearch(rating));
+        if (Movie == true)
+        {
+        }
     }
 }
