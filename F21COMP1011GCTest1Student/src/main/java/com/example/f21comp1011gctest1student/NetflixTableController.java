@@ -73,5 +73,10 @@ public class NetflixTableController implements Initializable {
             tableView.getItems().clear();
             tableView.getItems().addAll(DBUtility.getSelectedSearchMovie());
         }
+        if (TvShow == true)
+        {
+            tableView.getItems().clear();
+            tableView.getItems().addAll(DBUtility.getSelectedSearchTV());
+        }
     }
 }
