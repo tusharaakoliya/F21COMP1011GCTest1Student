@@ -21,7 +21,7 @@ public class NetflixShow {
     }
 
     public void setShowId(String showId) {
-        if (showId.startsWith("s") && showId.matches("s[0-9]"))
+        if (showId.startsWith("s") && showId.matches("s[0-9]{1,5}"))
         {
             this.showId = showId;
         }
@@ -109,8 +109,5 @@ public class NetflixShow {
         }
     }
 
-    public static void main(String[] args) {
-        NetflixShow netflixShow = new NetflixShow("s1","Movie", "New","TV-MA","ta","TV-MA");
-        System.out.println(netflixShow.toString());
-    }
+
 }

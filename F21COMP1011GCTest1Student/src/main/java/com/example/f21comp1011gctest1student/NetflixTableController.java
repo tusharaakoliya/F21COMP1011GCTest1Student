@@ -1,9 +1,12 @@
 package com.example.f21comp1011gctest1student;
 
+import com.example.f21comp1011gctest1student.Utility.DBUtility;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -45,6 +48,15 @@ public class NetflixTableController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         selectRatingComboBox.getItems().add("All ratings");
+
+        showIdCol.setCellValueFactory(new PropertyValueFactory<>("showId"));
+        typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+        titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+        ratingCol.setCellValueFactory(new PropertyValueFactory<>("rating"));
+        castCol.setCellValueFactory(new PropertyValueFactory<>("cast"));
+        directorCol.setCellValueFactory(new PropertyValueFactory<>("director"));
+
+        tableView.getItems().addAll(DBUtility.getAllNetflixShow());
     }
 
     @FXML
