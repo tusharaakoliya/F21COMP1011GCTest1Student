@@ -59,6 +59,7 @@ public class NetflixTableController implements Initializable {
         directorCol.setCellValueFactory(new PropertyValueFactory<>("director"));
 
         tableView.getItems().addAll(DBUtility.getAllNetflixShow());
+        numOfShowsLabel.setText(String.valueOf(DBUtility.getAllNetflixShow().stream().count()));
     }
 
     @FXML
@@ -68,15 +69,18 @@ public class NetflixTableController implements Initializable {
         Boolean TvShow = tvCheckBox.isSelected();
         tableView.getItems().clear();
         tableView.getItems().addAll(DBUtility.getSelectedSearch(rating));
+        numOfShowsLabel.setText(String.valueOf(DBUtility.getSelectedSearch(rating).stream().count()));
         if (Movie == true)
         {
             tableView.getItems().clear();
             tableView.getItems().addAll(DBUtility.getSelectedSearchMovie());
+            numOfShowsLabel.setText(String.valueOf(DBUtility.getSelectedSearchMovie().stream().count()));
         }
         if (TvShow == true)
         {
             tableView.getItems().clear();
             tableView.getItems().addAll(DBUtility.getSelectedSearchTV());
+            numOfShowsLabel.setText(String.valueOf(DBUtility.getSelectedSearchTV().stream().count()));
         }
     }
 }
