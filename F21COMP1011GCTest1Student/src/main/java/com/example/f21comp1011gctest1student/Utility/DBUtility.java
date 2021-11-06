@@ -54,6 +54,7 @@ public class DBUtility {
             return showArrayList;
         }
 
+    /*
     public static ArrayList<String> getAllRating() {
         ArrayList<String> showRatingList = new ArrayList<>();
         String sql = "SELECT rating FROM netflix";
@@ -170,4 +171,5 @@ public class DBUtility {
 
         return showArrayList;
     }
+    */
 }
