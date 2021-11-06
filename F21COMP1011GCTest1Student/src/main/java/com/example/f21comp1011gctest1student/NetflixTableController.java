@@ -70,8 +70,6 @@ public class NetflixTableController implements Initializable {
 
         tvCheckBox.setSelected(true);
         movieCheckBox.setSelected(true);
-
-
     }
 
     @FXML
