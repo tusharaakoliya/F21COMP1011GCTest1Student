@@ -9,7 +9,7 @@ public class DBUtility {
 
         private static String user = "student";
         private static String pw = "student";
-        private static String connectionURl = "jdbc:mysql://localhost:3308/javatest";
+        private static String connectionURl = "jdbc:mysql://localhost:3306/javatest";
 
         public static ArrayList<NetflixShow> getAllNetflixShow(String sType, String sRating) {
             ArrayList<NetflixShow> showArrayList = new ArrayList<>();
