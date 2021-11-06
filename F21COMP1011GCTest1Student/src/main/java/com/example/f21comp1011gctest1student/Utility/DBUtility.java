@@ -11,16 +11,28 @@ public class DBUtility {
         private static String pw = "student";
         private static String connectionURl = "jdbc:mysql://localhost:3308/javatest";
 
-        public static ArrayList<NetflixShow> getAllNetflixShow() {
+        public static ArrayList<NetflixShow> getAllNetflixShow(String sType, String sRating) {
             ArrayList<NetflixShow> showArrayList = new ArrayList<>();
-            String sql = "SELECT showId, type, title, rating, director,cast FROM netflix";
+            String sql = "SELECT showId, type, title, rating, director,cast FROM netflix where type != ? and rating != ?";
+
+            if (!sType.equals("All") && sRating.equals("All rating"))
+                sql = "SELECT showId, type, title, rating, director,cast FROM netflix where type = ? and rating != ?";
+
+            else if (sType.equals("All") && !sRating.equals("All rating"))
+                sql = "SELECT showId, type, title, rating, director,cast FROM netflix where type != ? and rating = ?";
+
+            else if (!sType.equals("All") && !sRating.equals("All rating"))
+                sql = "SELECT showId, type, title, rating, director,cast FROM netflix where type = ? and rating = ?";
+
 
             try(
                     Connection conn = DriverManager.getConnection(connectionURl, user, pw);
-                    Statement statement = conn.createStatement();
-                    ResultSet resultSet = statement.executeQuery(sql);
-                    )
-            {
+                    PreparedStatement statement = conn.prepareStatement(sql);
+
+                    ) {
+                statement.setString(1, sType);
+                statement.setString(2, sRating);
+                ResultSet resultSet = statement.executeQuery();
                 while(resultSet.next())
                 {
                     String showId = resultSet.getString("showId");
@@ -108,7 +120,6 @@ public class DBUtility {
         {
             while(resultSet.next())
             {
-
                 String showId = resultSet.getString("showId");
                 String type = resultSet.getString("type");
                 String title = resultSet.getString("title");

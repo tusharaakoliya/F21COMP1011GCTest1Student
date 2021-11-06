@@ -8,7 +8,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.TreeSet;
 
 public class NetflixTableController implements Initializable {
 
@@ -45,12 +47,14 @@ public class NetflixTableController implements Initializable {
     @FXML
     private Label numOfShowsLabel;
 
+    private ArrayList<NetflixShow> netflixShows;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        selectRatingComboBox.getItems().add("All ratings");
-        selectRatingComboBox.getItems().addAll(DBUtility.getAllRating());
-        tvCheckBox.setSelected(true);
-        movieCheckBox.setSelected(true);
+
+        netflixShows = DBUtility.getAllNetflixShow("All", "All rating");
+
+
         showIdCol.setCellValueFactory(new PropertyValueFactory<>("showId"));
         typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
         titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -58,32 +62,52 @@ public class NetflixTableController implements Initializable {
         castCol.setCellValueFactory(new PropertyValueFactory<>("cast"));
         directorCol.setCellValueFactory(new PropertyValueFactory<>("director"));
 
-        tableView.getItems().addAll(DBUtility.getAllNetflixShow());
-        numOfShowsLabel.setText(String.valueOf(DBUtility.getAllNetflixShow().stream().count()));
+        tableView.getItems().addAll(netflixShows);
+        selectRatingComboBox.getItems().add("All rating");
+        selectRatingComboBox.getItems().addAll(getRatingFromTable());
+
+        updateLabel();
+
+        tvCheckBox.setSelected(true);
+        movieCheckBox.setSelected(true);
+
+
     }
 
     @FXML
     void applyFilter(ActionEvent event)  {
-        String rating = selectRatingComboBox.getSelectionModel().getSelectedItem();
-        Boolean Movie = movieCheckBox.isSelected();
-        Boolean TvShow = tvCheckBox.isSelected();
         tableView.getItems().clear();
-        numOfShowsLabel.setText("");
-        tableView.getItems().addAll(DBUtility.getSelectedSearch(rating));
-        numOfShowsLabel.setText(String.valueOf(DBUtility.getSelectedSearch(rating).stream().count()));
-        if (Movie == true)
-        {
-            tableView.getItems().clear();
-            tableView.getItems().addAll(DBUtility.getSelectedSearchMovie());
-            numOfShowsLabel.setText("");
-            numOfShowsLabel.setText(String.valueOf(DBUtility.getSelectedSearchMovie().stream().count()));
-        }
-        if (TvShow == true)
-        {
-            tableView.getItems().clear();
-            tableView.getItems().addAll(DBUtility.getSelectedSearchTV());
-            numOfShowsLabel.setText("");
-            numOfShowsLabel.setText(String.valueOf(DBUtility.getSelectedSearchTV().stream().count()));
-        }
+
+        String ratingSelected = selectRatingComboBox.getSelectionModel().getSelectedItem();
+        String type = "All";
+
+        if (ratingSelected == null)
+            ratingSelected = "All rating";
+
+        if(movieCheckBox.isSelected() && !tvCheckBox.isSelected())
+            type = "Movie";
+        else if(!movieCheckBox.isSelected() && tvCheckBox.isSelected())
+            type = "TV Show";
+        else if(!movieCheckBox.isSelected() && !tvCheckBox.isSelected())
+            type = "none";
+
+
+        tableView.getItems().addAll(DBUtility.getAllNetflixShow(type, ratingSelected));
+        updateLabel();
+    }
+
+    private void updateLabel() {
+        numOfShowsLabel.setText("Number of Movies/Shows: " + tableView.getItems().size());
+    }
+
+
+    // get rating from table view
+    private TreeSet<String> getRatingFromTable() {
+        TreeSet<String> rating = new TreeSet<>();
+
+        for (NetflixShow netflixShow: tableView.getItems())
+            rating.add(netflixShow.getRating());
+
+        return rating;
     }
 }

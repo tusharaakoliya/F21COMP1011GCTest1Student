@@ -21,7 +21,7 @@ public class NetflixShow {
     }
 
     public void setShowId(String showId) {
-        if (showId.startsWith("s") && showId.matches("s[0-9]{1,5}"))
+        if (showId.matches("[s]\\d*")) // regex check for start with 's' and any digit
         {
             this.showId = showId;
         }
